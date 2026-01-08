@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tier List Pro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        h1 { color: #ffd700; margin-bottom: 10px; }
+        
+        /* Contenedor principal que se convertirá en imagen */
+        #capture-area { background: #1a1a1a; padding: 15px; border-radius: 8px; width: 100%; max-width: 700px; }
+
+        .tier-row { display: flex; min-height: 90px; border: 1px solid #333; margin-bottom: 2px; }
+        .tier-label { width: 80px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 2rem; color: #000; flex-shrink: 0; }
+        .tier-content { flex-grow: 1; display: flex; flex-wrap: wrap; align-content: flex-start; padding: 10px; background: #1e1e1e; }
+
+        /* Colores clásicos */
+        .s { background: #ff7f7f; } .a { background: #ffbf7f; } .b { background: #ffff7f; }
+        .c { background: #7fff7f; } .d { background: #7fbfff; }
+
+        .item { background: #333; padding: 10px 15px; margin: 5px; border-radius: 4px; cursor: grab; border: 1px solid #555; font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .item:active { cursor: grabbing; }
+
+        #bank { background: #252525; width: 100%; max-width: 700px; padding: 20px; border-radius: 10px; display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px; border: 2px dashed #444; }
+        
+        .controls { margin-top: 25px; display: flex; gap: 10px; }
+        button { padding: 12px 20px; font-size: 0.9rem; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s; }
+        .btn-txt { background: #555; color: white; }
+        .btn-img { background: #4caf50; color: white; }
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <h1>Tier List de Nombres</h1>
+
+    <div id="capture-area">
+        <div class="tier-row"><div class="tier-label s">S</div><div class="tier-content" ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>
+        <div class="tier-row"><div class="tier-label a">A</div><div class="tier-content" ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>
+        <div class="tier-row"><div class="tier-label b">B</div><div class="tier-content" ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>
+        <div class="tier-row"><div class="tier-label c">C</div><div class="tier-content" ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>
+        <div class="tier-row"><div class="tier-label d">D</div><div class="tier-content" ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>
+    </div>
+
+    <div id="bank" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </div>
+
+    <div class="controls">
+        <button class="btn-txt" onclick="exportarTXT()">Exportar Texto</button>
+        <button class="btn-img" onclick="exportarImagen()">Descargar Imagen (PNG)</button>
+    </div>
+
+    <script>
+        const nombres = ["Zazie Beetz", "Tyla", "Zendaya", "Margot Robbie", "Anya Taylor-Joy", "Sydney Sweeney", "Scarlett Johansson", "Rihanna", "Ana de Armas", "Zoë Kravitz", "Sabrina Carpenter", "Alexandra Daddario", "Emma Watson", "Gal Gadot", "Florence Pugh"];
+
+        const bank = document.getElementById('bank');
+        nombres.forEach((nom, index) => {
+            let div = document.createElement('div');
+            div.className = 'item';
+            div.textContent = nom;
+            div.id = 'item-' + index;
+            div.draggable = true;
+            div.ondragstart = drag;
+            bank.appendChild(div);
+        });
+
+        function allowDrop(ev) { ev.preventDefault(); }
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var target = ev.target;
+            if (target.classList.contains('tier-content') || target.id === 'bank') {
+                target.appendChild(document.getElementById(data));
+            }
+        }
+
+        function exportarTXT() {
+            let resultado = "MI TIER LIST\n\n";
+            document.querySelectorAll('.tier-row').forEach(fila => {
+                const label = fila.querySelector('.tier-label').textContent;
+                const items = Array.from(fila.querySelectorAll('.item')).map(i => i.textContent);
+                resultado += `${label}: ${items.join(', ') || '(Vacío)'}\n`;
+            });
+            const blob = new Blob([resultado], { type: 'text/plain' });
+            const anchor = document.createElement('a');
+            anchor.download = 'tier-list.txt';
+            anchor.href = window.URL.createObjectURL(blob);
+            anchor.click();
+        }
+
+        function exportarImagen() {
+            const area = document.getElementById('capture-area');
+            html2canvas(area, { backgroundColor: "#121212" }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'mi-tier-list.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
