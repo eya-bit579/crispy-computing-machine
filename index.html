@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Tier List Pro</title>
+    <title>Mi Projects Tier List</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; }
@@ -34,7 +34,7 @@
 </head>
 <body>
 
-    <h1>Tier List de Nombres</h1>
+    <h1>Tier List de Proyectos</h1>
 
     <div id="capture-area">
         <div class="tier-row"><div class="tier-label s">S</div><div class="tier-content" ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>
@@ -53,16 +53,34 @@
     </div>
 
     <script>
-        const nombres = ["Zazie Beetz", "Tyla", "Zendaya", "Margot Robbie", "Anya Taylor-Joy", "Sydney Sweeney", "Scarlett Johansson", "Rihanna", "Ana de Armas", "Zoë Kravitz", "Sabrina Carpenter", "Alexandra Daddario", "Emma Watson", "Gal Gadot", "Florence Pugh"];
+        const proyectos = [
+            { nombre: "Casa 1", img: "img/casa-1.jpg" },
+            { nombre: "Casa 2", img: "img/casa-2.jpg" },
+            { nombre: "Casa 3", img: "img/casa-3.jpg" },
+            { nombre: "Torre 1", img: "img/torre-1.jpg" },
+            { nombre: "Torre 2", img: "img/torre-2.jpg" },
+            { nombre: "Torre 3", img: "img/torre-3.jpg" },
+            { nombre: "Comercio 1", img: "img/comercio-1.jpg" },
+            { nombre: "Comercio 2", img: "img/comercio-2.jpg" },
+            { nombre: "Comercio 3", img: "img/comercio-3.jpg" },
+            { nombre: "Masterplan 1", img: "img/masterplan-1.jpg" },
+            { nombre: "Masterplan 2", img: "img/masterplan-2.jpg" },
+            { nombre: "Masterplan 3", img: "img/masterplan-3.jpg" }
+        ];
 
         const bank = document.getElementById('bank');
-        nombres.forEach((nom, index) => {
+        proyectos.forEach((proy, index) => {
             let div = document.createElement('div');
             div.className = 'item';
-            div.textContent = nom;
             div.id = 'item-' + index;
             div.draggable = true;
             div.ondragstart = drag;
+
+            div.innerHTML = `
+                <img src="${proy.img}" alt="${proy.nombre}">
+                <span>${proy.nombre}</span>
+            `;
+
             bank.appendChild(div);
         });
 
