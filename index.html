@@ -22,6 +22,7 @@
 
         .item {
             width: 200px;
+            flex: 0 0 200px;
             background: #333;
             margin: 5px;
             border-radius: 6px;
@@ -112,12 +113,25 @@
         function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
         function drop(ev) {
             ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            var target = ev.target;
-            if (target.classList.contains('tier-content') || target.id === 'bank') {
-                target.appendChild(document.getElementById(data));
+            const data = ev.dataTransfer.getData("text");
+            const item = document.getElementById(data);
+        
+            let dropZone = ev.target;
+        
+            // Subir hasta encontrar el contenedor correcto
+            while (
+                dropZone &&
+                !dropZone.classList.contains('tier-content') &&
+                dropZone.id !== 'bank'
+            ) {
+                dropZone = dropZone.parentElement;
+            }
+        
+            if (dropZone) {
+                dropZone.appendChild(item);
             }
         }
+
 
         function exportarTXT() {
             let resultado = "MI TIER LIST\n\n";
@@ -145,6 +159,7 @@
     </script>
 </body>
 </html>
+
 
 
 
