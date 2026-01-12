@@ -39,6 +39,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            pointer-events: none;
         }
         
         .item span {
@@ -113,7 +114,10 @@
         });
 
         function allowDrop(ev) { ev.preventDefault(); }
-        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.currentTarget.id);
+        }
+
         function drop(ev) {
             ev.preventDefault();
             const data = ev.dataTransfer.getData("text");
@@ -161,6 +165,7 @@
     </script>
 </body>
 </html>
+
 
 
 
