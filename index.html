@@ -20,8 +20,32 @@
         .s { background: #ff7f7f; } .a { background: #ffbf7f; } .b { background: #ffff7f; }
         .c { background: #7fff7f; } .d { background: #7fbfff; }
 
-        .item { background: #333; padding: 10px 15px; margin: 5px; border-radius: 4px; cursor: grab; border: 1px solid #555; font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .item:active { cursor: grabbing; }
+        .item {
+            width: 200px;
+            background: #333;
+            margin: 5px;
+            border-radius: 6px;
+            cursor: grab;
+            border: 1px solid #555;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            overflow: hidden;
+            text-align: center;
+            padding: 0;
+        }
+
+        .item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .item span {
+            display: block;
+            padding: 8px;
+            font-size: 0.85rem;
+            background: #2a2a2a;
+        }
 
         #bank { background: #252525; width: 100%; max-width: 700px; padding: 20px; border-radius: 10px; display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px; border: 2px dashed #444; }
         
@@ -121,5 +145,6 @@
     </script>
 </body>
 </html>
+
 
 
